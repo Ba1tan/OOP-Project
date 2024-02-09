@@ -12,6 +12,7 @@ public class Courses {
     private int teacher_id;
 
 
+
     @Override
     public String toString() {
         return id + " " + teacher_id;
