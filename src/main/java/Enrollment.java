@@ -7,6 +7,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+
 public class Enrollment {
     private int id;
     private int student_id;

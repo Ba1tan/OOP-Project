@@ -7,6 +7,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+
 public class Teacher {
     private int id;
     private String surname;
