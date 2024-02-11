@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.management.ConstructorParameters;
+import java.beans.ConstructorProperties;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,7 +19,6 @@ public class Student {
     private String surname;
     private int age;
     private String email;
-
     public Student(String name, String surname, int age, String email)
     {
         setName(name);
@@ -29,6 +31,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return id + " " + name + " " + surname + " " + age + " " + email;
+        return id + " " + name + " " + surname + " age: " + age + " " + email;
     }
 }

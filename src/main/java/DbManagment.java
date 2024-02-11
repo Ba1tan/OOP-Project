@@ -36,6 +36,10 @@ public class DbManagment
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        if(Students.size() == 0)
+        {
+            System.out.println("No data");
+        }
         return Students;
     }
     public ArrayList<Teacher> getAllTeachers()
@@ -60,6 +64,10 @@ public class DbManagment
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        if(Teachers.size() == 0)
+        {
+            System.out.println("No data");
+        }
         return Teachers;
     }
     public void setNewStudent(Student student)
@@ -73,7 +81,36 @@ public class DbManagment
             stmt.setInt(3, student.getAge());
             stmt.setString(4, student.getEmail());
             stmt.executeUpdate();
+            System.out.println("Successfully");
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void setNewTeacher(Teacher teacher)
+    {
+        String sql = "insert into public.\"Teacher\" (teacher_name, teacher_surname, teacher_age, teacher_email) values (?, ?, ?, ?)";
+        try
+        {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, teacher.getName());
+            stmt.setString(2, teacher.getSurname());
+            stmt.setInt(3, teacher.getAge());
+            stmt.setString(4, teacher.getEmail());
+            stmt.executeUpdate();
+            System.out.println("Successfully");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void closeConnection()
+    {
+        try
+        {
+            con.close();
+            System.out.println("Connection closed");
+        }
+        catch (SQLException e)
+        {
             throw new RuntimeException(e);
         }
     }

@@ -17,6 +17,14 @@ public class Teacher {
     private int age;
     private String email;
 
+    public Teacher(String name, String surname, int age, String email)
+    {
+        setName(name);
+        setSurname(surname);
+        setAge(age);
+        setEmail(email);
+    }
+
 
     @Override
     public String toString() {
