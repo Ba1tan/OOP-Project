@@ -1,39 +1,24 @@
-import java.sql.*;
+import models.Student;
+import models.Teacher;
+
+import java.util.ArrayList;
 
 public class Main
 {
     public static void main(String[] args)
     {
-        Connection con = DbConnection.getConnection();
-        Statement stmt = null;
-        ResultSet rslt = null;
-        try {
-            stmt = con.createStatement();
-            stmt.executeUpdate("insert into public.\"Enrollment\" (student_id, course_id) values (1, 1)");
-            rslt = stmt.executeQuery("select * from public.\"Courses\" join public.\"Teacher\" on \"Teacher\".teacher_id = \"Courses\".teacher_id;");
-            while(rslt.next())
-            {
-                System.out.print(rslt.getString("course_name") + ": ");
-                System.out.print(rslt.getString("teacher_name") + " ");
-                System.out.println(rslt.getString("teacher_surname"));
-
-            }
-        }
-        catch (SQLException e)
+        DbManagment dbm = new DbManagment();
+        ArrayList<Student> Students = dbm.getAllStudents();
+        ArrayList<Teacher> Teachers = dbm.getAllTeachers();
+        for(Student st : Students)
         {
-            System.out.println("connection error: " + e.getMessage());
+            System.out.println(st);
         }
-        finally {
-            if (con != null) {
-                try {
-                    con.close();
-                }
-                catch (SQLException e)
-                {
-                    System.out.println("could not close the connection: " + e.getMessage());
-                }
-            }
+        for(Teacher tc : Teachers)
+        {
+            System.out.println(tc.toString());
         }
+        dbm.setNewStudent(new Student("Gaziza", "Kruz", 19, "123654@mail.ru"));
     }
 }
 
