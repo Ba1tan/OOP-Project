@@ -107,7 +107,7 @@ public class DbManagment
         try
         {
             con.close();
-            System.out.println("Connection closed");
+
         }
         catch (SQLException e)
         {
