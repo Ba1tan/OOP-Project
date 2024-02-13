@@ -4,10 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.management.ConstructorParameters;
-import java.beans.ConstructorProperties;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -26,8 +22,6 @@ public class Student {
         setAge(age);
         setEmail(email);
     }
-
-    // some cmt
 
     @Override
     public String toString() {

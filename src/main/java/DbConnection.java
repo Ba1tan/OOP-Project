@@ -3,7 +3,7 @@ public class DbConnection
 {
     private static String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static String USERNAME = "postgres";
-    private static String PASSWORD = "bakocore";
+    private static String PASSWORD = "348576";
 
 
     public static Connection getConnection()

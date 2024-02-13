@@ -1,3 +1,4 @@
+import models.Courses;
 import models.Student;
 import models.Teacher;
 
@@ -9,108 +10,52 @@ import java.util.ArrayList;
 
 public class DbManagment
 {
-    private Connection con;
+    protected Connection con;
     public DbManagment()
     {
         con = DbConnection.getConnection();
     }
-    public ArrayList<Student> getAllStudents()
+    public void creatCourse(String course_name, int id)
     {
-        ArrayList<Student> Students = new ArrayList<>();
-        String sql = "select * from public.\"Student\"";
+        Courses courses = new Courses(course_name, id);
+        String sql = "insert into public.\"Courses\" (course_name, teacher_id) values (?, ?)";
         try
         {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rslt = stmt.executeQuery();
-            while (rslt.next())
-            {
-                Student student = new Student();
-                student.setId(rslt.getInt("student_id"));
-                student.setName(rslt.getString("student_name"));
-                student.setSurname(rslt.getString("student_surname"));
-                student.setAge(rslt.getInt("student_age"));
-                student.setEmail(rslt.getString("student_email"));
-                Students.add(student);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        if(Students.size() == 0)
-        {
-            System.out.println("No data");
-        }
-        return Students;
-    }
-    public ArrayList<Teacher> getAllTeachers()
-    {
-        ArrayList<Teacher> Teachers = new ArrayList<>();
-        String sql = "select * from public.\"Teacher\"";
-        try
-        {
-            PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rslt = stmt.executeQuery();
-            while (rslt.next())
-            {
-                Teacher teacher = new Teacher();
-                teacher.setId(rslt.getInt("teacher_id"));
-                teacher.setName(rslt.getString("teacher_name"));
-                teacher.setSurname(rslt.getString("teacher_surname"));
-                teacher.setAge(rslt.getInt("teacher_age"));
-                teacher.setEmail(rslt.getString("teacher_email"));
-                Teachers.add(teacher);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        if(Teachers.size() == 0)
-        {
-            System.out.println("No data");
-        }
-        return Teachers;
-    }
-    public void setNewStudent(Student student)
-    {
-        String sql = "insert into public.\"Student\" (student_name, student_surname, student_age, student_email) values (?, ?, ?, ?)";
-        try
-        {
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, student.getName());
-            stmt.setString(2, student.getSurname());
-            stmt.setInt(3, student.getAge());
-            stmt.setString(4, student.getEmail());
+            stmt.setString(1, courses.getCourseName());
+            stmt.setInt(2, courses.getTeacher_id());
             stmt.executeUpdate();
             System.out.println("Successfully");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public void setNewTeacher(Teacher teacher)
+    public void showCourses()
     {
-        String sql = "insert into public.\"Teacher\" (teacher_name, teacher_surname, teacher_age, teacher_email) values (?, ?, ?, ?)";
+        String sql = "select * from public.\"Courses\" join public.\"Teacher\" on \"Teacher\".teacher_id = \"Courses\".teacher_id";
         try
         {
             PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, teacher.getName());
-            stmt.setString(2, teacher.getSurname());
-            stmt.setInt(3, teacher.getAge());
-            stmt.setString(4, teacher.getEmail());
-            stmt.executeUpdate();
-            System.out.println("Successfully");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public void closeConnection()
-    {
-        try
-        {
-            con.close();
+            ResultSet rslt = stmt.executeQuery();
+            while (rslt.next())
+            {
+                System.out.print(rslt.getInt("course_id"));
+                System.out.print(rslt.getString("course_name"));
+                System.out.println(rslt.getString("teacher_id"));
+            }
 
         }
         catch (SQLException e)
         {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void closeConnection() {
+        try {
+            con.close();
+
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
