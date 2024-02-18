@@ -8,19 +8,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class DbManagment
-{
+public class DbManagment {
     protected Connection con;
-    public DbManagment()
-    {
+
+    public DbManagment() {
         con = DbConnection.getConnection();
     }
-    public void creatCourse(String course_name, int id)
-    {
+
+    public void creatCourse(String course_name, int id) {
         Courses courses = new Courses(course_name, id);
         String sql = "insert into public.\"Courses\" (course_name, teacher_id) values (?, ?)";
-        try
-        {
+        try {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, courses.getCourseName());
             stmt.setInt(2, courses.getTeacher_id());
@@ -30,8 +28,10 @@ public class DbManagment
             throw new RuntimeException(e);
         }
     }
-    public void showCourses()
+
+    public ArrayList<Courses> showCourses()
     {
+        ArrayList<Courses> courses = new ArrayList<>();
         String sql = "select * from public.\"Courses\" join public.\"Teacher\" on \"Teacher\".teacher_id = \"Courses\".teacher_id";
         try
         {
@@ -39,9 +39,15 @@ public class DbManagment
             ResultSet rslt = stmt.executeQuery();
             while (rslt.next())
             {
-                System.out.print(rslt.getInt("course_id"));
-                System.out.print(rslt.getString("course_name"));
-                System.out.println(rslt.getString("teacher_id"));
+                Courses course = new Courses();
+                course.setId(rslt.getInt(1));
+                course.setCourseName(rslt.getString(2));
+                course.setTeacher_name(rslt.getString(4));
+                course.setTeacher_surname(rslt.getString(5));
+                course.setTeacher_age(rslt.getInt(7));
+                course.setTeacher_email(rslt.getString(6));
+                course.setTeacher_id(rslt.getInt(8));
+                courses.add(course);
             }
 
         }
@@ -49,6 +55,7 @@ public class DbManagment
         {
             throw new RuntimeException(e);
         }
+        return courses;
     }
 
     public void closeConnection() {

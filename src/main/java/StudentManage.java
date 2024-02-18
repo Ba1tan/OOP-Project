@@ -61,4 +61,17 @@ public class StudentManage extends DbManagment implements Data{
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public void updateInfo(String columnLabel, String value, int id)
+    {
+        try
+        {
+            PreparedStatement stmt = con.prepareStatement("UPDATE public.\"Student\" set "+columnLabel+" = '"+value+"' where student_id in ('"+id+"')");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 }

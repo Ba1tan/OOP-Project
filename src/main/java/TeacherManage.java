@@ -1,4 +1,3 @@
-import models.Student;
 import models.Teacher;
 
 import java.sql.PreparedStatement;
@@ -58,5 +57,19 @@ public class TeacherManage extends DbManagment implements Data{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void updateInfo(String columnLabel, String value, int id) {
+        try
+        {
+            PreparedStatement stmt = con.prepareStatement("UPDATE public.\"Teacher\" set "+columnLabel+" = '"+value+"' where teacher_id in ('"+id+"')");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+
     }
 }
